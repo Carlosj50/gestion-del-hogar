@@ -40,11 +40,6 @@ pip install -r requirements.txt
 Inicia la aplicación: Ejecuta el archivo principal:
 python main.py
 
-Roadmap
- Implementar los módulos base (Reparaciones, Agenda, etc.).
- Diseñar la interfaz gráfica inicial.
- Integrar inteligencia artificial para automatización y análisis de datos.
- Mejorar el soporte para exportación de datos (CSV, PDF).
 
 Contribución
 ¡Contribuciones son bienvenidas! Si quieres colaborar, por favor abre un issue o envía un pull request con tus mejoras.
