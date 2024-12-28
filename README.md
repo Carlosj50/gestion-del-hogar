@@ -4,13 +4,21 @@ Gestión del Hogar es una aplicación de escritorio desarrollada en Python para 
 
 Funcionalidades Principales:
 
+
 Reparaciones: Registro de reparaciones del hogar, incluyendo descripción, costos y estado.
+
 Agenda: Organización de eventos y recordatorios importantes.
+
 Lista de Tareas: Gestión de tareas pendientes con prioridades y fechas.
+
 Inventario: Control de elementos del hogar, incluyendo cantidades y fechas de caducidad.
+
 Lista de Objetivos: Planificación de metas personales y seguimiento del progreso.
+
 Plan de Trabajo: Organización de actividades para cumplir objetivos a corto y largo plazo.
+
 Calendario: Visualización de eventos y tareas en un formato cronológico.
+
 
 Tecnologías Usadas
 Lenguaje: Python 3.12
