@@ -1,53 +1,45 @@
-Gestión del Hogar
+# Gestión del Hogar
 
-Gestión del Hogar es una aplicación de escritorio desarrollada en Python para ayudar a organizar y gestionar las tareas del día a día de manera eficiente. El proyecto está diseñado para ser modular y escalable, integrando diferentes funcionalidades que se ajustan a las necesidades del hogar y la vida personal.
+**Gestión del Hogar** es una aplicación de escritorio desarrollada en Python para ayudar a organizar y gestionar las tareas del día a día. El proyecto está diseñado para ser modular, escalable y fácil de mantener.
 
-Funcionalidades Principales:
+## Funcionalidades Principales
 
+- **Agenda**: Gestión de eventos y recordatorios con fechas y descripciones.
+- **Reparaciones**: Registro de reparaciones del hogar, incluyendo costos y estados.
+- **Lista de Tareas**: Seguimiento de tareas con prioridades, fechas y estados.
+- **Inventario**: Control de artículos con cantidades, ubicaciones y fechas de caducidad.
+- **Lista de Objetivos**: Planificación y seguimiento de metas personales.
+- **Plan de Trabajo**: Organización de actividades para alcanzar objetivos.
+- **Calendario**: Visualización cronológica de eventos y actividades.
 
-Reparaciones: Registro de reparaciones del hogar, incluyendo descripción, costos y estado.
+## Tecnologías Usadas
 
-Agenda: Organización de eventos y recordatorios importantes.
+- **Lenguaje**: Python 3.12
+- **Base de Datos**: SQLite
+- **Gestión de Dependencias**: Archivo `requirements.txt`
+- **Control de Versiones**: Git y GitHub
 
-Lista de Tareas: Gestión de tareas pendientes con prioridades y fechas.
+## Estructura del Proyecto
 
-Inventario: Control de elementos del hogar, incluyendo cantidades y fechas de caducidad.
+El proyecto sigue una arquitectura modular para facilitar la escalabilidad y el mantenimiento. Las principales carpetas y archivos son:
 
-Lista de Objetivos: Planificación de metas personales y seguimiento del progreso.
+```plaintext
+proyecto_app/
+├── main.py              # Punto de entrada para la aplicación.
+├── modules/             # Directorio para los módulos funcionales.
+│   ├── agenda.py            # Gestión de eventos.
+│   ├── reparaciones.py      # Gestión de reparaciones.
+│   ├── lista_tareas.py      # Gestión de tareas pendientes.
+│   ├── inventario.py        # Gestión del inventario del hogar.
+│   ├── objetivos.py         # Gestión de metas personales.
+│   ├── plan_trabajo.py      # Organización de actividades.
+│   ├── calendario.py        # Gestión de eventos cronológicos.
+├── database/            # Archivos relacionados con la base de datos.
+│   ├── app_data.db          # Archivo SQLite con los datos del proyecto.
+│   ├── schema.sql           # Script SQL para inicializar la base de datos.
+├── tests/               # Pruebas unitarias y de integración.
+│   ├── test_modules.py      # Pruebas para los módulos funcionales.
+│   ├── test_integration.py  # Pruebas para la integración general.
+├── requirements.txt     # Dependencias del proyecto.
+└── README.md            # Documentación del proyecto.
 
-Plan de Trabajo: Organización de actividades para cumplir objetivos a corto y largo plazo.
-
-Calendario: Visualización de eventos y tareas en un formato cronológico.
-
-
-Tecnologías Usadas
-Lenguaje: Python 3.12
-Base de Datos: SQLite
-Interfaz Gráfica: PyQt6
-Control de Versiones: Git y GitHub
-
-Estructura del Proyecto
-
-El proyecto sigue una arquitectura modular para facilitar la escalabilidad y el mantenimiento. Las principales carpetas son:
-
-modules/: Contiene los módulos funcionales de la aplicación (CRUD para cada funcionalidad).
-ui/: Código relacionado con la interfaz gráfica.
-database/: Archivos relacionados con la base de datos, incluyendo el esquema y el archivo SQLite.
-assets/: Recursos estáticos como íconos e imágenes.
-tests/: Scripts para pruebas unitarias y de integración.
-docs/: Documentación adicional sobre el proyecto.
-
-Instalación y Ejecución:
-Clona el repositorio:
-git clone https://github.com/tu-usuario/gestion-del-hogar.git
-cd gestion-del-hogar
-
-Instala las dependencias: Asegúrate de tener Python 3.12 instalado y ejecuta:
-pip install -r requirements.txt
-
-Inicia la aplicación: Ejecuta el archivo principal:
-python main.py
-
-
-Contribución
-¡Contribuciones son bienvenidas! Si quieres colaborar, por favor abre un issue o envía un pull request con tus mejoras.

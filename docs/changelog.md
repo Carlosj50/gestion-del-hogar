@@ -22,3 +22,34 @@ Todos los cambios relevantes en el proyecto se registrarán en este archivo.
 - Implementar el primer módulo funcional (ejemplo: **Lista de Tareas** o **Reparaciones**).
 - Diseñar la interfaz gráfica inicial en `ui/main_window.py`.
 - Escribir pruebas iniciales para la base de datos y el menú principal.
+# Changelog
+
+Todos los cambios relevantes en el proyecto se registrarán en este archivo.
+
+## [0.2.0] - 2024-12-28
+### Añadido
+- **Menú Principal (`main.py`)**:
+  - Integración dinámica con la tabla `opciones` de la base de datos para generar el menú.
+  - Llamada directa a cada módulo utilizando `os.system`.
+  - Soporte para módulos almacenados en la carpeta `modules/`.
+
+- **Módulos CRUD Finalizados**:
+  - **Agenda**: Gestión de eventos con fechas y descripciones.
+  - **Reparaciones**: Registro y seguimiento de reparaciones del hogar.
+  - **Lista de Tareas**: Gestión de tareas con prioridades y estados.
+  - **Inventario**: Control de artículos con cantidades, ubicaciones y fechas de caducidad.
+  - **Lista de Objetivos**: Planificación y seguimiento de objetivos personales.
+  - **Plan de Trabajo**: Organización de actividades con descripciones y fechas.
+  - **Calendario**: Visualización cronológica de eventos y actividades.
+
+### Cambiado
+- Actualización en `manejar_opcion` para incluir el prefijo `modules/` en las rutas de los módulos llamados directamente desde el menú principal.
+
+### Próximos pasos
+- **Refinamiento**:
+  - Mejorar la validación de entradas del usuario en todos los módulos.
+  - Optimizar el manejo de errores en caso de fallos o rutas de módulos incorrectas.
+- **Documentación**:
+  - Ampliar el `README.md` para incluir instrucciones detalladas sobre la estructura y uso del proyecto.
+- **Pruebas**:
+  - Crear pruebas unitarias para cada módulo y para el menú principal.
