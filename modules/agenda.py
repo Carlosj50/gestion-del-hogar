@@ -1,4 +1,8 @@
 import sqlite3
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
+from config import DB_NAME
 from datetime import datetime
 
 class Agenda:
@@ -8,7 +12,7 @@ class Agenda:
     def agregar_evento(self, evento, descripcion, fecha_hora):
         """Agrega un nuevo evento al calendario."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("""
                     INSERT INTO calendario (evento, descripcion, fecha_hora)
                     VALUES (?, ?, ?)
@@ -20,7 +24,7 @@ class Agenda:
     def listar_eventos(self):
         """Lista todos los eventos registrados en el calendario."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 cursor = conn.execute("SELECT id, evento, descripcion, fecha_hora FROM calendario")
                 eventos = cursor.fetchall()
                 if eventos:
@@ -35,7 +39,7 @@ class Agenda:
     def actualizar_evento(self, evento_id, nuevo_evento, nueva_descripcion, nueva_fecha_hora):
         """Actualiza un evento existente."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("""
                     UPDATE calendario
                     SET evento = ?, descripcion = ?, fecha_hora = ?
@@ -48,7 +52,7 @@ class Agenda:
     def eliminar_evento(self, evento_id):
         """Elimina un evento del calendario."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("DELETE FROM calendario WHERE id = ?", (evento_id,))
                 print(f"Evento con ID {evento_id} eliminado con éxito.")
         except Exception as e:

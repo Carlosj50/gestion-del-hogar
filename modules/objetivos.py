@@ -1,5 +1,8 @@
 import sqlite3
-
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
+from config import DB_NAME
 class ListaObjetivos:
     def __init__(self, db_name="database/app_data.db"):
         self.db_name = db_name
@@ -7,7 +10,7 @@ class ListaObjetivos:
     def agregar_objetivo(self, objetivo, descripcion, fecha_limite, progreso):
         """Agrega un nuevo objetivo a la lista."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("""
                     INSERT INTO objetivos (objetivo, descripcion, fecha_limite, progreso)
                     VALUES (?, ?, ?, ?)
@@ -19,7 +22,7 @@ class ListaObjetivos:
     def listar_objetivos(self):
         """Lista todos los objetivos registrados."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 cursor = conn.execute("SELECT id, objetivo, descripcion, fecha_limite, progreso FROM objetivos")
                 objetivos = cursor.fetchall()
                 if objetivos:
@@ -34,7 +37,7 @@ class ListaObjetivos:
     def actualizar_objetivo(self, objetivo_id, nuevo_objetivo, nueva_descripcion, nueva_fecha_limite, nuevo_progreso):
         """Actualiza los detalles de un objetivo existente."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("""
                     UPDATE objetivos
                     SET objetivo = ?, descripcion = ?, fecha_limite = ?, progreso = ?
@@ -47,7 +50,7 @@ class ListaObjetivos:
     def eliminar_objetivo(self, objetivo_id):
         """Elimina un objetivo de la lista."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("DELETE FROM objetivos WHERE id = ?", (objetivo_id,))
                 print(f"Objetivo con ID {objetivo_id} eliminado con éxito.")
         except Exception as e:

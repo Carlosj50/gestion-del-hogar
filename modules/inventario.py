@@ -1,5 +1,8 @@
 import sqlite3
-
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
+from config import DB_NAME
 class Inventario:
     def __init__(self, db_name="database/app_data.db"):
         self.db_name = db_name
@@ -7,7 +10,7 @@ class Inventario:
     def agregar_item(self, item, cantidad, ubicacion, fecha_caducidad):
         """Agrega un nuevo ítem al inventario."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("""
                     INSERT INTO inventario (item, cantidad, ubicacion, fecha_caducidad)
                     VALUES (?, ?, ?, ?)
@@ -19,7 +22,7 @@ class Inventario:
     def listar_items(self):
         """Lista todos los ítems en el inventario."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 cursor = conn.execute("SELECT id, item, cantidad, ubicacion, fecha_caducidad FROM inventario")
                 items = cursor.fetchall()
                 if items:
@@ -35,7 +38,7 @@ class Inventario:
     def actualizar_item(self, item_id, nuevo_item, nueva_cantidad, nueva_ubicacion, nueva_fecha_caducidad):
         """Actualiza los detalles de un ítem existente."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("""
                     UPDATE inventario
                     SET item = ?, cantidad = ?, ubicacion = ?, fecha_caducidad = ?
@@ -48,7 +51,7 @@ class Inventario:
     def eliminar_item(self, item_id):
         """Elimina un ítem del inventario."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("DELETE FROM inventario WHERE id = ?", (item_id,))
                 print(f"Ítem con ID {item_id} eliminado con éxito.")
         except Exception as e:

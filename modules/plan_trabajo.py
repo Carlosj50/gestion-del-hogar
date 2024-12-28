@@ -1,5 +1,8 @@
 import sqlite3
-
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
+from config import DB_NAME
 class PlanTrabajo:
     def __init__(self, db_name="database/app_data.db"):
         self.db_name = db_name
@@ -7,7 +10,7 @@ class PlanTrabajo:
     def agregar_actividad(self, titulo, descripcion, fecha_hora):
         """Agrega una nueva actividad al plan de trabajo."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("""
                     INSERT INTO plan_trabajo (titulo, descripcion, fecha_hora)
                     VALUES (?, ?, ?)
@@ -19,7 +22,7 @@ class PlanTrabajo:
     def listar_actividades(self):
         """Lista todas las actividades del plan de trabajo."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 cursor = conn.execute("SELECT id, titulo, descripcion, fecha_hora FROM plan_trabajo")
                 actividades = cursor.fetchall()
                 if actividades:
@@ -34,7 +37,7 @@ class PlanTrabajo:
     def actualizar_actividad(self, actividad_id, nuevo_titulo, nueva_descripcion, nueva_fecha_hora):
         """Actualiza los detalles de una actividad existente."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("""
                     UPDATE plan_trabajo
                     SET titulo = ?, descripcion = ?, fecha_hora = ?
@@ -47,7 +50,7 @@ class PlanTrabajo:
     def eliminar_actividad(self, actividad_id):
         """Elimina una actividad del plan de trabajo."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("DELETE FROM plan_trabajo WHERE id = ?", (actividad_id,))
                 print(f"Actividad con ID {actividad_id} eliminada con éxito.")
         except Exception as e:

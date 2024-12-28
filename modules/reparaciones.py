@@ -1,5 +1,8 @@
 import sqlite3
-
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
+from config import DB_NAME
 class Reparaciones:
     def __init__(self, db_name="database/app_data.db"):
         self.db_name = db_name
@@ -7,7 +10,7 @@ class Reparaciones:
     def agregar_reparacion(self, descripcion, fecha, costo, estado):
         """Agrega una nueva reparación."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("""
                     INSERT INTO reparaciones (descripcion, fecha, costo, estado)
                     VALUES (?, ?, ?, ?)
@@ -19,7 +22,7 @@ class Reparaciones:
     def listar_reparaciones(self):
         """Lista todas las reparaciones."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 cursor = conn.execute("SELECT id, descripcion, fecha, costo, estado FROM reparaciones")
                 reparaciones = cursor.fetchall()
                 if reparaciones:
@@ -34,7 +37,7 @@ class Reparaciones:
     def actualizar_reparacion(self, reparacion_id, nueva_descripcion, nueva_fecha, nuevo_costo, nuevo_estado):
         """Actualiza una reparación existente."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("""
                     UPDATE reparaciones
                     SET descripcion = ?, fecha = ?, costo = ?, estado = ?
@@ -47,7 +50,7 @@ class Reparaciones:
     def eliminar_reparacion(self, reparacion_id):
         """Elimina una reparación."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("DELETE FROM reparaciones WHERE id = ?", (reparacion_id,))
                 print(f"Reparación con ID {reparacion_id} eliminada con éxito.")
         except Exception as e:

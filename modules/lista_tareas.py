@@ -1,4 +1,8 @@
 import sqlite3
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
+from config import DB_NAME
 from datetime import datetime
 
 class ListaTareas:
@@ -8,7 +12,7 @@ class ListaTareas:
     def agregar_tarea(self, titulo, descripcion, prioridad, fecha_hora):
         """Agrega una nueva tarea a la lista."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("""
                     INSERT INTO tareas (titulo, descripcion, prioridad, fecha_hora, estado)
                     VALUES (?, ?, ?, ?, ?)
@@ -20,7 +24,7 @@ class ListaTareas:
     def listar_tareas(self, filtro_estado=None, filtro_prioridad=None):
         """Lista todas las tareas, filtrando por estado o prioridad si se especifica."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 query = "SELECT id, titulo, descripcion, prioridad, fecha_hora, estado FROM tareas"
                 params = []
                 if filtro_estado or filtro_prioridad:
@@ -49,7 +53,7 @@ class ListaTareas:
     def actualizar_tarea(self, tarea_id, nuevo_titulo, nueva_descripcion, nueva_prioridad, nueva_fecha_hora, nuevo_estado):
         """Actualiza los detalles de una tarea existente."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("""
                     UPDATE tareas
                     SET titulo = ?, descripcion = ?, prioridad = ?, fecha_hora = ?, estado = ?
@@ -62,7 +66,7 @@ class ListaTareas:
     def eliminar_tarea(self, tarea_id):
         """Elimina una tarea por su ID."""
         try:
-            with sqlite3.connect(self.db_name) as conn:
+            with sqlite3.connect(DB_NAME) as conn:
                 conn.execute("DELETE FROM tareas WHERE id = ?", (tarea_id,))
                 print(f"Tarea con ID {tarea_id} eliminada con éxito.")
         except Exception as e:
