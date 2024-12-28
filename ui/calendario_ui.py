@@ -14,7 +14,8 @@ class CalendarioUI(QWidget):
 
         self.setWindowTitle("Gestión de Calendario")
         self.setGeometry(100, 100, 600, 400)
-
+        with open(UI_DIR + "style.qss", "r") as style_file:
+            app.setStyleSheet(style_file.read())
         # Instancia del módulo Calendario
         self.calendario = Calendario()
 

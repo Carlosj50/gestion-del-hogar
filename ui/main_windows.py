@@ -9,6 +9,8 @@ from ui.tareas_ui import TareasUI
 from ui.inventario_ui import InventarioUI
 from ui.objetivos_ui import ObjetivosUI
 from ui.calendario_ui import CalendarioUI
+from ui.plan_trabajo_ui import PlanTrabajoUI
+
 
 
 class MainWindow(QMainWindow):
@@ -17,17 +19,19 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("Gestión del Hogar")
         self.setGeometry(100, 100, 800, 600)
-
+        with open(UI_DIR + "style.qss", "r") as style_file:
+            app.setStyleSheet(style_file.read())
         # Layout principal
         layout = QVBoxLayout()
 
         # Botones para los módulos
         botones = [
-            ("Agenda", self.abrir_agenda),
             ("Reparaciones", self.abrir_reparaciones),
+            ("Agenda", self.abrir_agenda),
             ("Lista de Tareas", self.abrir_lista_tareas),
             ("Inventario", self.abrir_inventario),
             ("Lista de Objetivos", self.abrir_lista_objetivos),
+            ("Plan de Trabajo", self.abrir_plan_trabajo),
             ("Calendario", self.abrir_calendario),
         ]
 
@@ -65,7 +69,9 @@ class MainWindow(QMainWindow):
     def abrir_calendario(self):
         self.ventana_calendario = CalendarioUI()
         self.ventana_calendario.show()
-
+    def abrir_plan_trabajo(self):
+        self.ventana_plan_trabajo = PlanTrabajoUI()
+        self.ventana_plan_trabajo.show()
 
 if __name__ == "__main__":
     app = QApplication([])
