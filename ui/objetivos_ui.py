@@ -10,18 +10,21 @@ from modules.objetivos import ListaObjetivos
 
 
 class ObjetivosUI(QWidget):
-    def __init__(self):
+    def __init__(self, db_manager):
         super().__init__()
 
         self.setWindowTitle("Gestión de Objetivos")
         self.setGeometry(100, 100, 600, 400)
 
         # Instancia del módulo Objetivos
-        self.objetivos = ListaObjetivos()
+        self.objetivos = ListaObjetivos(db_manager)
 
         # Layout principal
         layout = QVBoxLayout()
-
+        
+        # Aplicar estilo
+        self.aplicar_estilo()
+        
         # Tabla para mostrar objetivos
         self.tabla = QTableWidget()
         self.tabla.setColumnCount(4)
@@ -70,6 +73,16 @@ class ObjetivosUI(QWidget):
         layout.addWidget(self.campo_progreso)
 
         self.setLayout(layout)
+        
+    def aplicar_estilo(self):
+        """Carga y aplica un archivo de estilo QSS."""
+        try:
+            with open("ui/style.qss", "r") as archivo_estilo:
+                estilo = archivo_estilo.read()
+                self.setStyleSheet(estilo)
+        except FileNotFoundError:
+            print("Archivo de estilo 'style.qss' no encontrado. Usando estilos predeterminados.")
+
 
     def agregar_objetivo(self):
         """Agrega un nuevo objetivo a la base de datos."""

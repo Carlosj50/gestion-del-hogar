@@ -10,18 +10,21 @@ from modules.plan_trabajo import PlanTrabajo
 
 
 class PlanTrabajoUI(QWidget):
-    def __init__(self):
+    def __init__(self, db_manager):
         super().__init__()
 
         self.setWindowTitle("Gestión de Plan de Trabajo")
         self.setGeometry(100, 100, 600, 400)
 
         # Instancia del módulo PlanTrabajo
-        self.plan_trabajo = PlanTrabajo()
+        self.plan_trabajo = PlanTrabajo(db_manager)
 
         # Layout principal
         layout = QVBoxLayout()
 
+        # Aplicar estilo
+        self.aplicar_estilo()
+        
         # Tabla para mostrar las actividades
         self.tabla = QTableWidget()
         self.tabla.setColumnCount(3)
@@ -66,6 +69,16 @@ class PlanTrabajoUI(QWidget):
         layout.addWidget(self.campo_fecha_hora)
 
         self.setLayout(layout)
+        
+    def aplicar_estilo(self):
+        """Carga y aplica un archivo de estilo QSS."""
+        try:
+            with open("ui/style.qss", "r") as archivo_estilo:
+                estilo = archivo_estilo.read()
+                self.setStyleSheet(estilo)
+        except FileNotFoundError:
+            print("Archivo de estilo 'style.qss' no encontrado. Usando estilos predeterminados.")
+
 
     def agregar_actividad(self):
         """Agrega una nueva actividad al plan de trabajo."""

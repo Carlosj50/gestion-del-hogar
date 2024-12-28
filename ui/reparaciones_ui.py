@@ -10,33 +10,27 @@ from modules.reparaciones import Reparaciones
 
 
 class ReparacionesUI(QWidget):
-    def __init__(self):
+    def __init__(self, db_manager):
         super().__init__()
 
         self.setWindowTitle("Gestión de Reparaciones")
         self.setGeometry(100, 100, 600, 400)
 
         # Instancia del módulo Reparaciones
-        self.reparaciones = Reparaciones()
+        self.reparaciones = Reparaciones(db_manager)
 
         # Layout principal
         layout = QVBoxLayout()
+        
+                # Aplicar estilo
+        self.aplicar_estilo()
 
         # Tabla para mostrar reparaciones
         self.tabla = QTableWidget()
         self.tabla.setColumnCount(4)
         self.tabla.setHorizontalHeaderLabels(["ID", "Descripción", "Fecha", "Costo"])
                         # Aplica el estilo a la tabla
-        self.tabla.setStyleSheet("""
-            QTableWidget {
-                background-color: #F8F9FA;
-                border: 1px solid #CED4DA;
-            }
 
-            QTableWidget::item {
-                border: 0px;
-            }
-        """)
         self.tabla.setGridStyle(Qt.PenStyle.SolidLine)
         layout.addWidget(self.tabla)
 
@@ -70,6 +64,15 @@ class ReparacionesUI(QWidget):
         layout.addWidget(self.campo_costo)
 
         self.setLayout(layout)
+        
+    def aplicar_estilo(self):
+        """Carga y aplica un archivo de estilo QSS."""
+        try:
+            with open("ui/style.qss", "r") as archivo_estilo:
+                estilo = archivo_estilo.read()
+                self.setStyleSheet(estilo)
+        except FileNotFoundError:
+            print("Archivo de estilo 'style.qss' no encontrado. Usando estilos predeterminados.")
 
     def agregar_reparacion(self):
         """Agrega una nueva reparación a la base de datos."""

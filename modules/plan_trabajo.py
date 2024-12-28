@@ -4,6 +4,9 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from config import DB_NAME
 class PlanTrabajo:
+    def __init__(self, db_manager):
+        """Inicializa la clase Agenda con una referencia al DBManager."""
+        self.db_manager = db_manager
     def agregar_actividad(self, titulo, descripcion, fecha_hora):
         """Agrega una nueva actividad al plan de trabajo."""
         try:
@@ -17,19 +20,18 @@ class PlanTrabajo:
             print(f"Error al agregar la actividad: {e}")
 
     def listar_actividades(self):
-        """Lista todas las actividades del plan de trabajo."""
+        """
+        Lista todas las actividades del plan de trabajo y las devuelve como una lista.
+        """
         try:
             with sqlite3.connect(DB_NAME) as conn:
                 cursor = conn.execute("SELECT id, titulo, descripcion, fecha_hora FROM plan_trabajo")
-                actividades = cursor.fetchall()
-                if actividades:
-                    print("\n--- Plan de Trabajo ---")
-                    for id, titulo, descripcion, fecha_hora in actividades:
-                        print(f"{id}. {titulo} - {descripcion} (Fecha y Hora: {fecha_hora})")
-                else:
-                    print("No hay actividades registradas en el plan de trabajo.")
+                actividades = cursor.fetchall()  # Recupera todas las actividades
+                return actividades  # Devuelve la lista de actividades
         except Exception as e:
             print(f"Error al listar las actividades: {e}")
+            return []  # Devuelve una lista vacía en caso de error
+    
 
     def actualizar_actividad(self, actividad_id, nuevo_titulo, nueva_descripcion, nueva_fecha_hora):
         """Actualiza los detalles de una actividad existente."""

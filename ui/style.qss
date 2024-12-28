@@ -1,19 +1,79 @@
+/* Estilo para QPushButton */
 QPushButton {
     background-color: #007BFF;
-    color: white;
+    color: rgb(255, 255, 255);
+    border: 1px solid #0056b3;
     border-radius: 5px;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #0056b3;
+    border: 1px solid #004494;
+}
+
+QPushButton:pressed {
+    background-color: #003d82;
+    border: 1px solid #003060;
+}
+
+/* Estilo para QTableWidget */
+QTableWidget {
+    background-color: #ffffff;
+    text-emphasis-color: #04315f;
+    border: 1px solid #06ec19;
+    color: #04315f;
+    font-size: 14px;
+}
+
+QTableWidget::item {
     padding: 5px;
 }
 
-QTableWidget {
-    background-color: #F8F9FA;
-    border: 1px solid #CED4DA;
-
+QTableWidget::item:selected {
+    background-color: #007BFF;
+    color: rgb(2, 19, 255);
 }
 
+/* Estilo para QHeaderView (cabecera de la tabla) */
 QHeaderView::section {
     background-color: #007BFF;
-    color: white;
+    color: rgb(16, 20, 231);
     padding: 4px;
+    border: 1px solid #0056b3;
+    font-weight: bold;
+}
+
+/* Estilo para QMainWindow */
+QMainWindow {
+    background-color: #ffffff;
+}
+
+/* Estilo para QWidget */
+QWidget {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+/* Scrollbars */
+QScrollBar:vertical, QScrollBar:horizontal {
+    background: #F8F9FA;
     border: 1px solid #CED4DA;
+    width: 10px;
+}
+
+QScrollBar::handle {
+    background: #007BFF;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:hover {
+    background: #0056b3;
+}
+
+QScrollBar::sub-line, QScrollBar::add-line {
+    background: none;
+    border: none;
 }

@@ -4,7 +4,9 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from config import DB_NAME
 class ListaObjetivos:
-
+    def __init__(self, db_manager):
+        """Inicializa la clase Agenda con una referencia al DBManager."""
+        self.db_manager = db_manager
     def agregar_objetivo(self, objetivo, descripcion, fecha_limite, progreso):
         """Agrega un nuevo objetivo a la lista."""
         try:
@@ -18,19 +20,17 @@ class ListaObjetivos:
             print(f"Error al agregar el objetivo: {e}")
 
     def listar_objetivos(self):
-        """Lista todos los objetivos registrados."""
+        """
+        Lista todos los objetivos registrados y los devuelve como una lista.
+        """
         try:
             with sqlite3.connect(DB_NAME) as conn:
                 cursor = conn.execute("SELECT id, objetivo, descripcion, fecha_limite, progreso FROM objetivos")
-                objetivos = cursor.fetchall()
-                if objetivos:
-                    print("\n--- Objetivos Registrados ---")
-                    for id, objetivo, descripcion, fecha_limite, progreso in objetivos:
-                        print(f"{id}. {objetivo} - {descripcion} (Fecha Límite: {fecha_limite}, Progreso: {progreso}%)")
-                else:
-                    print("No hay objetivos registrados.")
+                objetivos = cursor.fetchall()  # Recupera todos los registros de la tabla
+                return objetivos  # Devuelve la lista de objetivos
         except Exception as e:
             print(f"Error al listar los objetivos: {e}")
+            return []  # Devuelve una lista vacía en caso de error
 
     def actualizar_objetivo(self, objetivo_id, nuevo_objetivo, nueva_descripcion, nueva_fecha_limite, nuevo_progreso):
         """Actualiza los detalles de un objetivo existente."""

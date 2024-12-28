@@ -5,6 +5,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from config import DB_NAME
 
 class Calendario:
+    def __init__(self, db_manager):
+        """Inicializa la clase Agenda con una referencia al DBManager."""
+        self.db_manager = db_manager
     def agregar_evento(self, evento, descripcion, fecha_hora):
         """Agrega un nuevo evento al calendario."""
         try:
@@ -21,17 +24,14 @@ class Calendario:
         """Lista todos los eventos registrados en el calendario."""
         try:
             with sqlite3.connect(DB_NAME) as conn:
-                cursor = conn.execute("SELECT id, evento, descripcion, fecha_hora FROM calendario ORDER BY fecha_hora ASC")
-                eventos = cursor.fetchall()
-                if eventos:
-                    print("\n--- Eventos Registrados ---")
-                    for id, evento, descripcion, fecha_hora in eventos:
-                        print(f"{id}. {evento} - {descripcion} (Fecha y Hora: {fecha_hora})")
-                else:
-                    print("No hay eventos registrados en el calendario.")
+                cursor = conn.execute("SELECT id, evento, descripcion, fecha_hora FROM calendario")
+                eventos = cursor.fetchall()  # Recupera todos los registros
+                return eventos  # Devuelve la lista de eventos
         except Exception as e:
-            print(f"Error al listar los eventos: {e}")
-
+            print(f"Error al listar eventos: {e}")
+            return []  # Devuelve una lista vacía en caso de error
+    
+    
     def actualizar_evento(self, evento_id, nuevo_evento, nueva_descripcion, nueva_fecha_hora):
         """Actualiza los detalles de un evento existente."""
         try:

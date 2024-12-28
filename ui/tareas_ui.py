@@ -10,33 +10,26 @@ from modules.lista_tareas import ListaTareas
 
 
 class TareasUI(QWidget):
-    def __init__(self):
+    def __init__(self, db_manager):
         super().__init__()
 
         self.setWindowTitle("Gestión de Tareas")
         self.setGeometry(100, 100, 600, 400)
 
         # Instancia del módulo ListaTareas
-        self.tareas = ListaTareas()
+        self.tareas = ListaTareas(db_manager)
 
         # Layout principal
         layout = QVBoxLayout()
+        
+        self.aplicar_estilo()
 
         # Tabla para mostrar las tareas
         self.tabla = QTableWidget()
         self.tabla.setColumnCount(5)
         self.tabla.setHorizontalHeaderLabels(["ID", "Título", "Prioridad", "Fecha y Hora", "Estado"])
                         # Aplica el estilo a la tabla
-        self.tabla.setStyleSheet("""
-            QTableWidget {
-                background-color: #F8F9FA;
-                border: 1px solid #CED4DA;
-            }
 
-            QTableWidget::item {
-                border: 0px;
-            }
-        """)
         self.tabla.setGridStyle(Qt.PenStyle.SolidLine)
         layout.addWidget(self.tabla)
 
@@ -74,6 +67,15 @@ class TareasUI(QWidget):
         layout.addWidget(self.campo_estado)
 
         self.setLayout(layout)
+        
+    def aplicar_estilo(self):
+        """Carga y aplica un archivo de estilo QSS."""
+        try:
+            with open("ui/style.qss", "r") as archivo_estilo:
+                estilo = archivo_estilo.read()
+                self.setStyleSheet(estilo)
+        except FileNotFoundError:
+            print("Archivo de estilo 'style.qss' no encontrado. Usando estilos predeterminados.")
 
     def agregar_tarea(self):
         """Agrega una nueva tarea a la base de datos."""

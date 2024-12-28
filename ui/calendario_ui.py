@@ -10,17 +10,20 @@ from modules.calendario import Calendario
 
 
 class CalendarioUI(QWidget):
-    def __init__(self):
+    def __init__(self, db_manager):
         super().__init__()
 
         self.setWindowTitle("Gestión de Calendario")
         self.setGeometry(100, 100, 600, 400)
 
         # Instancia del módulo Calendario
-        self.calendario = Calendario()
+        self.calendario = Calendario(db_manager)
 
         # Layout principal
         layout = QVBoxLayout()
+        
+        # Aplicar estilo
+        self.aplicar_estilo()
 
         # Tabla para mostrar eventos del calendario
         self.tabla = QTableWidget()
@@ -66,6 +69,15 @@ class CalendarioUI(QWidget):
         layout.addWidget(self.campo_fecha_hora)
 
         self.setLayout(layout)
+    def aplicar_estilo(self):
+        """Carga y aplica un archivo de estilo QSS."""
+        try:
+            with open("ui/style.qss", "r") as archivo_estilo:
+                estilo = archivo_estilo.read()
+                self.setStyleSheet(estilo)
+        except FileNotFoundError:
+            print("Archivo de estilo 'style.qss' no encontrado. Usando estilos predeterminados.")
+
 
     def agregar_evento(self):
         """Agrega un nuevo evento al calendario."""

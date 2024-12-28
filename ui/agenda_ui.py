@@ -10,37 +10,28 @@ from modules.agenda import Agenda
 
 
 class AgendaUI(QWidget):
-    def __init__(self):
+    def __init__(self, db_manager):
         super().__init__()
 
         self.setWindowTitle("Gestión de Agenda")
         self.setGeometry(100, 100, 600, 400)
-        
+    
         # Instancia del módulo Agenda
-        self.agenda = Agenda()
+        self.agenda = Agenda(db_manager)
 
         # Layout principal
         layout = QVBoxLayout()
-
+        
         # Tabla para mostrar eventos
         self.tabla = QTableWidget()
         self.tabla.setColumnCount(3)
         self.tabla.setHorizontalHeaderLabels(["ID", "Evento", "Fecha y Hora"])
-        
-                # Aplica el estilo a la tabla
-        self.tabla.setStyleSheet("""
-            QTableWidget {
-                background-color: #F8F9FA;
-                border: 1px solid #CED4DA;
-            }
 
-            QTableWidget::item {
-                border: 0px;
-            }
-        """)
-        self.tabla.setGridStyle(Qt.PenStyle.SolidLine)
+
         layout.addWidget(self.tabla)
-
+        # Aplicar estilo
+        self.aplicar_estilo()
+        
         # Botones de acciones
         botones_layout = QHBoxLayout()
         btn_agregar = QPushButton("Agregar Evento")
@@ -67,7 +58,24 @@ class AgendaUI(QWidget):
         layout.addWidget(self.campo_fecha)
 
         self.setLayout(layout)
+        
+    def aplicar_estilo(self):
+        """Carga y aplica un archivo de estilo QSS."""
+        try:
+            with open("ui/style.qss", "r") as archivo_estilo:
+                estilo = archivo_estilo.read()
+                self.setStyleSheet(estilo)
+        except FileNotFoundError:
+            print("Archivo de estilo 'style.qss' no encontrado. Usando estilos predeterminados.")
 
+    def cargar_datos(self):
+        """Carga datos de ejemplo en la tabla."""
+        eventos = self.agenda.listar_eventos()
+        self.tabla.setRowCount(len(eventos))
+        for fila, evento in enumerate(eventos):
+            for col, dato in enumerate(evento):
+                self.tabla.setItem(fila, col, QTableWidgetItem(str(dato)))
+                
     def agregar_evento(self):
         """Agrega un nuevo evento a la base de datos."""
         evento = self.campo_evento.text()
@@ -115,6 +123,7 @@ class AgendaUI(QWidget):
 
 if __name__ == "__main__":
     from PyQt6.QtWidgets import QApplication
+
 
     app = QApplication([])
     ventana = AgendaUI()

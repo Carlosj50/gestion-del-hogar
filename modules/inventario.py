@@ -4,6 +4,9 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from config import DB_NAME
 class Inventario:
+    def __init__(self, db_manager):
+        """Inicializa la clase Agenda con una referencia al DBManager."""
+        self.db_manager = db_manager
     def agregar_item(self, item, cantidad, ubicacion, fecha_caducidad):
         """Agrega un nuevo ítem al inventario."""
         try:
@@ -17,20 +20,15 @@ class Inventario:
             print(f"Error al agregar el ítem: {e}")
 
     def listar_items(self):
-        """Lista todos los ítems en el inventario."""
+        """Lista todos los ítems en el inventario y los devuelve como una lista."""
         try:
             with sqlite3.connect(DB_NAME) as conn:
                 cursor = conn.execute("SELECT id, item, cantidad, ubicacion, fecha_caducidad FROM inventario")
-                items = cursor.fetchall()
-                if items:
-                    print("\n--- Inventario Registrado ---")
-                    for id, item, cantidad, ubicacion, fecha_caducidad in items:
-                        fecha_str = fecha_caducidad if fecha_caducidad else "Sin Fecha"
-                        print(f"{id}. {item} - Cantidad: {cantidad}, Ubicación: {ubicacion}, Caducidad: {fecha_str}")
-                else:
-                    print("No hay ítems registrados en el inventario.")
+                items = cursor.fetchall()  # Recupera todos los registros del inventario
+                return items  # Devuelve la lista de ítems
         except Exception as e:
             print(f"Error al listar los ítems: {e}")
+            return []  # Devuelve una lista vacía en caso de error
 
     def actualizar_item(self, item_id, nuevo_item, nueva_cantidad, nueva_ubicacion, nueva_fecha_caducidad):
         """Actualiza los detalles de un ítem existente."""

@@ -4,6 +4,9 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from config import DB_NAME
 class Reparaciones:
+    def __init__(self, db_manager):
+        """Inicializa la clase Agenda con una referencia al DBManager."""
+        self.db_manager = db_manager
     def agregar_reparacion(self, descripcion, fecha, costo, estado):
         """Agrega una nueva reparación."""
         try:
@@ -17,19 +20,17 @@ class Reparaciones:
             print(f"Error al agregar la reparación: {e}")
 
     def listar_reparaciones(self):
-        """Lista todas las reparaciones."""
+        """
+        Lista todas las reparaciones registradas y las devuelve como una lista.
+        """
         try:
             with sqlite3.connect(DB_NAME) as conn:
                 cursor = conn.execute("SELECT id, descripcion, fecha, costo, estado FROM reparaciones")
-                reparaciones = cursor.fetchall()
-                if reparaciones:
-                    print("\n--- Reparaciones Registradas ---")
-                    for id, descripcion, fecha, costo, estado in reparaciones:
-                        print(f"{id}. {descripcion} - Fecha: {fecha}, Costo: {costo}, Estado: {estado}")
-                else:
-                    print("No hay reparaciones registradas.")
+                reparaciones = cursor.fetchall()  # Recupera todas las reparaciones
+                return reparaciones  # Devuelve la lista de reparaciones
         except Exception as e:
             print(f"Error al listar reparaciones: {e}")
+            return []  # Devuelve una lista vacía en caso de error
 
     def actualizar_reparacion(self, reparacion_id, nueva_descripcion, nueva_fecha, nuevo_costo, nuevo_estado):
         """Actualiza una reparación existente."""

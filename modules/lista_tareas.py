@@ -6,6 +6,10 @@ from config import DB_NAME
 from datetime import datetime
 
 class ListaTareas:
+    def __init__(self, db_manager):
+        """Inicializa la clase Agenda con una referencia al DBManager."""
+        self.db_manager = db_manager
+        
     def agregar_tarea(self, titulo, descripcion, prioridad, fecha_hora):
         """Agrega una nueva tarea a la lista."""
         try:
@@ -19,11 +23,16 @@ class ListaTareas:
             print(f"Error al agregar la tarea: {e}")
 
     def listar_tareas(self, filtro_estado=None, filtro_prioridad=None):
-        """Lista todas las tareas, filtrando por estado o prioridad si se especifica."""
+        """
+        Lista todas las tareas, filtrando por estado o prioridad si se especifica.
+        Devuelve una lista de tareas.
+        """
         try:
             with sqlite3.connect(DB_NAME) as conn:
                 query = "SELECT id, titulo, descripcion, prioridad, fecha_hora, estado FROM tareas"
                 params = []
+    
+                # Añadir filtros a la consulta SQL
                 if filtro_estado or filtro_prioridad:
                     query += " WHERE"
                     if filtro_estado:
@@ -34,19 +43,16 @@ class ListaTareas:
                     if filtro_prioridad:
                         query += " prioridad = ?"
                         params.append(filtro_prioridad)
+    
+                # Ejecutar la consulta con los filtros
                 cursor = conn.execute(query, params)
                 tareas = cursor.fetchall()
-
-                if tareas:
-                    print("\n--- Tareas Registradas ---")
-                    for id, titulo, descripcion, prioridad, fecha_hora, estado in tareas:
-                        fecha_str = fecha_hora if fecha_hora else "Sin Fecha"
-                        print(f"{id}. {titulo} - {descripcion} (Prioridad: {prioridad}, Fecha: {fecha_str}, Estado: {estado})")
-                else:
-                    print("No hay tareas registradas.")
+    
+                return tareas  # Devuelve la lista de tareas
         except Exception as e:
             print(f"Error al listar las tareas: {e}")
-
+            return []  # Devuelve una lista vacía en caso de error
+    
     def actualizar_tarea(self, tarea_id, nuevo_titulo, nueva_descripcion, nueva_prioridad, nueva_fecha_hora, nuevo_estado):
         """Actualiza los detalles de una tarea existente."""
         try:

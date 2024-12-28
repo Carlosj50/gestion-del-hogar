@@ -1,21 +1,33 @@
 import sqlite3
 
+
 class DBManager:
-    def __init__(self, db_name="database/app_data.db"):
-        self.db_name = db_name
+    def __init__(self, db_path):
+        """Inicializa el gestor de base de datos."""
+        self.db_path = db_path
 
-    def initialize_database(self, schema_file="database/schema.sql"):
-        """Crea la base de datos y las tablas usando un archivo SQL."""
+    def execute_query(self, query, params=None):
+        """Ejecuta consultas como INSERT, UPDATE, DELETE."""
+        conn = sqlite3.connect(self.db_path)
         try:
-            with sqlite3.connect(self.db_name) as conn:
-                print("Conexión exitosa a la base de datos.")
-                with open(schema_file, "r") as file:
-                    conn.executescript(file.read())
-                    print("Base de datos inicializada con éxito.")
-        except Exception as e:
-            print(f"Error al inicializar la base de datos: {e}")
+            cursor = conn.cursor()
+            if params:
+                cursor.execute(query, params)
+            else:
+                cursor.execute(query)
+            conn.commit()
+        finally:
+            conn.close()
 
-# Ejemplo de uso
-if __name__ == "__main__":
-    db_manager = DBManager()
-    db_manager.initialize_database()
+    def fetch_query(self, query, params=None):
+        """Ejecuta consultas SELECT."""
+        conn = sqlite3.connect(self.db_path)
+        try:
+            cursor = conn.cursor()
+            if params:
+                cursor.execute(query, params)
+            else:
+                cursor.execute(query)
+            return cursor.fetchall()
+        finally:
+            conn.close()
