@@ -1,8 +1,8 @@
 import sqlite3
-from db_manager import DBManager
+import os
 
 def obtener_opciones():
-    """Obtiene las opciones del menú desde la base de datos."""
+    """Obtiene las opciones del menú desde la tabla opciones en la base de datos."""
     try:
         conn = sqlite3.connect("database/app_data.db")
         cursor = conn.execute("SELECT clave, valor FROM opciones")
@@ -14,33 +14,25 @@ def obtener_opciones():
         return []
 
 def manejar_opcion(opcion):
-    """Llama al módulo correspondiente según la opción seleccionada."""
-    if opcion == 1:
-        print("Reparaciones - Funcionalidad en desarrollo")
-        # Aquí se importará y ejecutará el módulo reparaciones
-    elif opcion == 2:
-        print("Agenda - Funcionalidad en desarrollo")
-        # Aquí se importará y ejecutará el módulo agenda
-    elif opcion == 3:
-        print("Lista de Tareas - Funcionalidad en desarrollo")
-        # Aquí se importará y ejecutará el módulo lista_tareas
-    elif opcion == 4:
-        print("Inventario - Funcionalidad en desarrollo")
-        # Aquí se importará y ejecutará el módulo inventario
-    elif opcion == 5:
-        print("Lista de Objetivos - Funcionalidad en desarrollo")
-        # Aquí se importará y ejecutará el módulo objetivos
-    elif opcion == 6:
-        print("Plan de Trabajo - Funcionalidad en desarrollo")
-        # Aquí se importará y ejecutará el módulo plan_trabajo
-    elif opcion == 7:
-        print("Calendario - Funcionalidad en desarrollo")
-        # Aquí se importará y ejecutará el módulo calendario
+    """Ejecuta directamente el módulo correspondiente según la opción seleccionada."""
+    modulos = {
+        1: "modules/reparaciones.py",
+        2: "modules/agenda.py",
+        3: "modules/lista_tareas.py",
+        4: "modules/inventario.py",
+        5: "modules/objetivos.py",
+        6: "modules/plan_trabajo.py",
+        7: "modules/calendario.py"
+    }
+
+    script = modulos.get(opcion)
+    if script:
+        os.system(f"python {script}")
     else:
-        print("Opción no válida, por favor intenta de nuevo.")
+        print("Opción no válida, intenta de nuevo.")
 
 def mostrar_menu():
-    """Muestra el menú principal y gestiona la selección del usuario."""
+    """Muestra el menú principal y gestiona la navegación entre módulos."""
     while True:
         print("\n=== Menú Principal ===")
         opciones = obtener_opciones()
@@ -62,6 +54,4 @@ def mostrar_menu():
             print("Por favor, introduce un número válido.")
 
 if __name__ == "__main__":
-    # Inicializamos la conexión a la base de datos y mostramos el menú
-    db_manager = DBManager()
     mostrar_menu()
