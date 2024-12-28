@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QPushButton, QTableWidget, QTableWidgetItem, QLineEdit, QLabel, QHBoxLayout, QMessageBox, QComboBox
 )
+from PyQt6.QtCore import Qt
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
@@ -14,8 +15,7 @@ class TareasUI(QWidget):
 
         self.setWindowTitle("Gestión de Tareas")
         self.setGeometry(100, 100, 600, 400)
-        with open(UI_DIR + "style.qss", "r") as style_file:
-            app.setStyleSheet(style_file.read())
+
         # Instancia del módulo ListaTareas
         self.tareas = ListaTareas()
 
@@ -26,6 +26,18 @@ class TareasUI(QWidget):
         self.tabla = QTableWidget()
         self.tabla.setColumnCount(5)
         self.tabla.setHorizontalHeaderLabels(["ID", "Título", "Prioridad", "Fecha y Hora", "Estado"])
+                        # Aplica el estilo a la tabla
+        self.tabla.setStyleSheet("""
+            QTableWidget {
+                background-color: #F8F9FA;
+                border: 1px solid #CED4DA;
+            }
+
+            QTableWidget::item {
+                border: 0px;
+            }
+        """)
+        self.tabla.setGridStyle(Qt.PenStyle.SolidLine)
         layout.addWidget(self.tabla)
 
         # Botones de acciones

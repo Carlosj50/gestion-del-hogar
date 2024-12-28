@@ -8,5 +8,12 @@ QPushButton {
 QTableWidget {
     background-color: #F8F9FA;
     border: 1px solid #CED4DA;
-    gridline-color: #CED4DA;
+
+}
+
+QHeaderView::section {
+    background-color: #007BFF;
+    color: white;
+    padding: 4px;
+    border: 1px solid #CED4DA;
 }

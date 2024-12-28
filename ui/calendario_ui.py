@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QPushButton, QTableWidget, QTableWidgetItem, QLineEdit, QLabel, QHBoxLayout, QMessageBox
 )
+from PyQt6.QtCore import Qt
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
@@ -14,8 +15,7 @@ class CalendarioUI(QWidget):
 
         self.setWindowTitle("Gestión de Calendario")
         self.setGeometry(100, 100, 600, 400)
-        with open(UI_DIR + "style.qss", "r") as style_file:
-            app.setStyleSheet(style_file.read())
+
         # Instancia del módulo Calendario
         self.calendario = Calendario()
 
@@ -26,6 +26,18 @@ class CalendarioUI(QWidget):
         self.tabla = QTableWidget()
         self.tabla.setColumnCount(3)
         self.tabla.setHorizontalHeaderLabels(["ID", "Evento", "Fecha y Hora"])
+                        # Aplica el estilo a la tabla
+        self.tabla.setStyleSheet("""
+            QTableWidget {
+                background-color: #F8F9FA;
+                border: 1px solid #CED4DA;
+            }
+
+            QTableWidget::item {
+                border: 0px;
+            }
+        """)
+        self.tabla.setGridStyle(Qt.PenStyle.SolidLine)
         layout.addWidget(self.tabla)
 
         # Botones de acciones
