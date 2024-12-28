@@ -4,9 +4,6 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from config import DB_NAME
 class Reparaciones:
-    def __init__(self, db_name="database/app_data.db"):
-        self.db_name = db_name
-
     def agregar_reparacion(self, descripcion, fecha, costo, estado):
         """Agrega una nueva reparación."""
         try:

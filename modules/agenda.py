@@ -6,9 +6,6 @@ from config import DB_NAME
 from datetime import datetime
 
 class Agenda:
-    def __init__(self, db_name="database/app_data.db"):
-        self.db_name = db_name
-
     def agregar_evento(self, evento, descripcion, fecha_hora):
         """Agrega un nuevo evento al calendario."""
         try:

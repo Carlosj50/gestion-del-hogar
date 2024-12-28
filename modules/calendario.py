@@ -5,9 +5,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from config import DB_NAME
 
 class Calendario:
-    def __init__(self, db_name="database/app_data.db"):
-        self.db_name = db_name
-
     def agregar_evento(self, evento, descripcion, fecha_hora):
         """Agrega un nuevo evento al calendario."""
         try:

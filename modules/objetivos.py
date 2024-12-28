@@ -4,8 +4,6 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from config import DB_NAME
 class ListaObjetivos:
-    def __init__(self, db_name="database/app_data.db"):
-        self.db_name = db_name
 
     def agregar_objetivo(self, objetivo, descripcion, fecha_limite, progreso):
         """Agrega un nuevo objetivo a la lista."""

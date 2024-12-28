@@ -6,9 +6,6 @@ from config import DB_NAME
 from datetime import datetime
 
 class ListaTareas:
-    def __init__(self, db_name="database/app_data.db"):
-        self.db_name = db_name
-
     def agregar_tarea(self, titulo, descripcion, prioridad, fecha_hora):
         """Agrega una nueva tarea a la lista."""
         try:

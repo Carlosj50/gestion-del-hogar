@@ -4,9 +4,6 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from config import DB_NAME
 class Inventario:
-    def __init__(self, db_name="database/app_data.db"):
-        self.db_name = db_name
-
     def agregar_item(self, item, cantidad, ubicacion, fecha_caducidad):
         """Agrega un nuevo ítem al inventario."""
         try:

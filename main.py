@@ -1,10 +1,12 @@
 import sqlite3
 import os
-
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
+from config import *
 def obtener_opciones():
     """Obtiene las opciones del menú desde la tabla opciones en la base de datos."""
     try:
-        conn = sqlite3.connect("database/app_data.db")
+        conn = sqlite3.connect(DB_NAME)
         cursor = conn.execute("SELECT clave, valor FROM opciones")
         opciones = cursor.fetchall()
         conn.close()
@@ -16,13 +18,13 @@ def obtener_opciones():
 def manejar_opcion(opcion):
     """Ejecuta directamente el módulo correspondiente según la opción seleccionada."""
     modulos = {
-        1: "modules/reparaciones.py",
-        2: "modules/agenda.py",
-        3: "modules/lista_tareas.py",
-        4: "modules/inventario.py",
-        5: "modules/objetivos.py",
-        6: "modules/plan_trabajo.py",
-        7: "modules/calendario.py"
+        1: MODULES_DIR + "reparaciones.py",
+        2: MODULES_DIR + "agenda.py",
+        3: MODULES_DIR + "lista_tareas.py",
+        4: MODULES_DIR + "inventario.py",
+        5: MODULES_DIR + "objetivos.py",
+        6: MODULES_DIR + "plan_trabajo.py",
+        7: MODULES_DIR + "calendario.py"
     }
 
     script = modulos.get(opcion)
